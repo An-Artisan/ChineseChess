@@ -1,8 +1,50 @@
 var red_status = 0;
 var black_status = 0;
 var global_src = null;
-var a = $(".chess_board img[position='102']").attr('src');
-console.log(a);
+var global_target = {};
+// var a = $(".chess_board img[position='102']").attr('src');
+// console.log(a);
+function rule(e){
+	var chessman = $(e).attr('chessman');
+	switch(chessman)
+	{
+	case 'r_b':
+	  soldier(e);
+	  break;
+	case 'r_p':
+	  // soldier(e);
+	  break;
+	case 'r_j':
+	  // soldier(e);
+	  break;
+	case 'r_m':
+	  // soldier(e);
+	  break;
+	case 'r_x':
+	  // soldier(e);
+	  break;
+	case 'r_s':
+	  // soldier(e);
+	  break;
+	case 'r_boos':
+	  // soldier(e);
+	  break;
+	default:
+	}
+	
+}
+function soldier(e){
+	if($(e).attr('position') < 50){
+		// 得到兵可走的位置
+		var new_postion = parseInt($(e).attr('position')) + 10;
+		// 把可走的位置原来的信息存在一个json数据中
+		global_target[new_postion] = $("#red img[position='"+new_postion+"']").attr('src')
+		// 设置可走的位置为活跃
+		$("#red img[position='"+new_postion+"']").attr('src','./images_chess/XQSTUDIO/OOS.GIF');
+	}
+}
+			
+
 $("#red img[name='chessman']").each(function(){
 	$(this).click(function(){
 		var src;
@@ -22,6 +64,10 @@ $("#red img[name='chessman']").each(function(){
 			red_status = 0;
 			// 设置全局src为null
 			global_src = null;
+			// 把所有能走的棋盘恢复原状
+			$.each(global_target,function(name,value) {
+				$("#red img[position='"+name+"']").attr('src',value);
+			});
 		}
 		// 设置棋子状态为活跃
 		else{
@@ -40,6 +86,8 @@ $("#red img[name='chessman']").each(function(){
 				red_status = 1;
 				// 把该棋子的src装进全局src
 				global_src = s;
+				// 调用规则
+				rule(this);
 			}
 		}
 	});
