@@ -2,24 +2,42 @@ var red_status = 0;
 var black_status = 0;
 var global_src = null;
 var global_target = {};
-function rule(e){
+function rule(e,camp){
 	// 获取棋子的类型
 	var chessman = $(e).attr('chessman');
 	switch(chessman)
 	{
 	case 'r_b':
-	  // 调用兵的规则
-	  soldier(e);
+	  // 调用红色兵的规则
+	  red_soldier(e,camp);
+	  break;
+	case 'b_b':
+	  // 调用黑色兵的规则
+	  black_soldier(e,camp);
 	  break;
 	case 'r_p':
-	  // 调用炮的规则
-	  cannon(e);
+	  // 调用红色炮的公共规则
+	  common_cannon(e,camp);
+	  break;
+	case 'b_p':
+	  // 调用黑色炮的公共规则
+	  common_cannon(e,camp);
 	  break;
 	case 'r_j':
-	  // soldier(e);
+	  // 调用红色車的公共规则
+	  common_car(e,camp);
+	  break;
+	case 'b_j':
+	  // 调用黑色車的公共规则
+	  common_car(e,camp);
 	  break;
 	case 'r_m':
-	  // soldier(e);
+	  // 调用红色马的规则
+	  common_horse(e,camp);
+	  break;
+	case 'b_m':
+	  // 调用黑色马的规则
+	  common_horse(e,camp);
 	  break;
 	case 'r_x':
 	  // soldier(e);
@@ -34,7 +52,8 @@ function rule(e){
 	}
 	
 }
-function set_chessman_active(){
+// 设置全局json中的棋位为活跃
+function set_chessman_active(camp){
 	// 循环全局json
 	$.each(global_target,function(name,value) {
 		// 获取当前位置的name
@@ -49,7 +68,7 @@ function set_chessman_active(){
 			$(".chess_board img[position='"+name+"']").attr('chessman_position','active');
 		}
 		// 如果可走棋位不为我方棋子就添加为活跃棋位
-		else if(attr_chessman.substring(0,1)!='r'){
+		else if(attr_chessman.substring(0,1)!=camp){
 			// 获取活跃棋位的src
 			var s = $(".chess_board img[position='"+name+"']").attr('src');
 			// 拼接字符串
@@ -64,8 +83,151 @@ function set_chessman_active(){
 		
 	});
 }
-// 炮的规则
-function cannon(e){
+// 双方马的公共规则
+function common_horse(e,camp){
+
+	// 获取当前棋子的位置
+	var position = parseInt($(e).attr('position'));
+	// 获取个位
+	var units = position - ((Math.floor(position/10))*10);
+	// 把当前棋子位置赋值给i，用于上下棋位的判断
+	var i = position;
+	// 把当前棋子的位置个位数赋值给j，用于左右棋位的判断
+	var j = units;
+	//	马左上二，右上二的规则
+	if(i < 90 && $(".chess_board img[position='"+(i+10)+"']").attr('name') == 'null'){
+		// 左上二
+		if(j > 1 && ($(".chess_board img[position='"+(i+19)+"']").attr('name') == 'null' || $(".chess_board img[position='"+(i+19)+"']").attr('chessman').substring(0,1) != camp)){
+			global_target[i+19] = $(".chess_board img[position='"+(i+19)+"']").attr('src');
+		}
+		// 右上二
+		if(j < 9 && ($(".chess_board img[position='"+(i+21)+"']").attr('name') == 'null' || $(".chess_board img[position='"+(i+21)+"']").attr('chessman').substring(0,1) != camp)){
+			global_target[i+21] = $(".chess_board img[position='"+(i+21)+"']").attr('src');
+		}
+	}
+	//	马左上一，左下一的规则
+	if(i < 100 && $(".chess_board img[position='"+(i-1)+"']").attr('name') == 'null'){
+		// 左上一
+		if(j > 2 && ($(".chess_board img[position='"+(i+8)+"']").attr('name') == 'null' || $(".chess_board img[position='"+(i+8)+"']").attr('chessman').substring(0,1) != camp)){
+			global_target[i+8] = $(".chess_board img[position='"+(i+8)+"']").attr('src');
+		}
+		// 左下一
+		if(j > 2 &&  i > 20 && ($(".chess_board img[position='"+(i-12)+"']").attr('name') == 'null' || $(".chess_board img[position='"+(i-12)+"']").attr('chessman').substring(0,1) != camp)){
+			global_target[i-12] = $(".chess_board img[position='"+(i-12)+"']").attr('src');
+		}
+	}
+	// 马右上一，右下一的规则
+	if(i < 100 &&  $(".chess_board img[position='"+(i+1)+"']").attr('name') == 'null'){
+		// 右上一
+		if(j < 8 && ($(".chess_board img[position='"+(i+12)+"']").attr('name') == 'null' || $(".chess_board img[position='"+(i+12)+"']").attr('chessman').substring(0,1) != camp)){
+			global_target[i+12] = $(".chess_board img[position='"+(i+12)+"']").attr('src');
+		}
+		// 右下一
+		if(j < 8 && i > 20 && ($(".chess_board img[position='"+(i-8)+"']").attr('name') == 'null' || $(".chess_board img[position='"+(i-8)+"']").attr('chessman').substring(0,1) != camp)){
+			global_target[i-8] = $(".chess_board img[position='"+(i-8)+"']").attr('src');
+		}
+	}
+	// 马左下二，右下二的规则
+	if(i > 30 && $(".chess_board img[position='"+(i-10)+"']").attr('name') == 'null'){
+		// 左下二
+		if(j > 1 && ($(".chess_board img[position='"+(i-21)+"']").attr('name') == 'null' || $(".chess_board img[position='"+(i-21)+"']").attr('chessman').substring(0,1) != camp)){
+			global_target[i-21] = $(".chess_board img[position='"+(i-21)+"']").attr('src');
+		}
+		// 右下二
+		if(j < 9 && ($(".chess_board img[position='"+(i-19)+"']").attr('name') == 'null' || $(".chess_board img[position='"+(i-19)+"']").attr('chessman').substring(0,1) != camp)){
+			global_target[i-19] = $(".chess_board img[position='"+(i-19)+"']").attr('src');
+		}
+	}
+	// 设置棋位为活跃可吃棋位
+	set_chessman_active(camp);
+}
+// 双方車的规则
+function common_car(e,camp){
+	// 获取当前棋子的位置
+	var position = parseInt($(e).attr('position'));
+	// 获取个位
+	var units = position - ((Math.floor(position/10))*10);
+	// 把当前棋子位置赋值给i，用于上下棋位的判断
+	var i = position;
+	// 把当前棋子的位置个位数赋值给j，用于左右棋位的判断
+	var j = units;
+	// 直接判断当前棋位的上一个棋位
+	i += 10;
+	// 循环判断，如果这个棋位小于110 代表在棋盘内。并且name值为null，代表是空棋位
+	while(i <110 && $(".chess_board img[position='"+i+"']").attr('name') == 'null'){
+			// 添加至全局json
+			global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
+			// 自增10，判断下一个棋位
+			i += 10;
+	}
+	// 直接判断这个不是空棋位的棋子是不是我方棋子，如果不是，添加到全局json
+	if(i< 110 && $(".chess_board img[position='"+i+"']").attr('chessman').substring(0,1) != camp){
+			// 添加到全局json
+			global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
+	}
+	// 重新赋值之前的位置
+	i = position;
+	// i++ 表示当前棋子右边的第一个棋位
+	i ++;
+	// j++ 表示当前棋子左边第一个棋位的个位
+	j ++;
+	// 如果当前的个位小于10，并且当前棋子的值为空棋位
+	while(j < 10 && $(".chess_board img[position='"+i+"']").attr('name') == 'null'){
+			// 添加至全局json
+			global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
+			// i++ 判断下一个棋位
+			i ++;
+			// j++ 判断下一个棋位的个位
+			j ++;
+	}
+	// 直接判断这个不是空棋位的棋子是不是我方棋子，如果不是，添加到全局json
+	if(j< 10 && $(".chess_board img[position='"+i+"']").attr('chessman').substring(0,1) != camp){
+			// 添加到全局json
+			global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
+	}
+	// 重新赋值个位
+	j = units;
+	// 重新赋值位置
+	i = position;
+	// i-10 判断当前棋子后一位的棋子
+	i -= 10;
+	// 当前位置大于10，表示在棋盘内，并且name值等于null，是空棋位才添加到全局json
+	while(i > 10 && $(".chess_board img[position='"+i+"']").attr('name') == 'null'){
+			// 添加至全局json
+			global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
+			// i-10，判断下一个棋位
+			i -= 10;
+	}
+	// 直接判断这个不是空棋位的棋子是不是我方棋子，如果不是，添加到全局json
+	if(i > 10 && $(".chess_board img[position='"+i+"']").attr('chessman').substring(0,1) != camp){
+			// 添加到全局json
+			global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
+	}
+	i = position;
+	// i-- 直接判断当前棋位的左一个棋位
+	i --;
+	// j-- 表示往左一个棋位的个位
+	j --;
+	// 个位小于0，代表在棋盘内，并且name值为空，表示是空棋位，可以添加到全局json
+	while(j > 0 && $(".chess_board img[position='"+i+"']").attr('name') == 'null'){
+			// 添加到全局json
+			global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
+			// 自减1，判断下一个棋位
+			i --;
+			// 自减1，判断下一个棋位
+			j --;
+	}
+	// 直接判断这个不是空棋位的棋子是不是我方棋子，如果不是，添加到全局json
+	if(j > 0 && $(".chess_board img[position='"+i+"']").attr('chessman').substring(0,1) != camp){
+			// 直接判断这个不是空棋位的棋子是不是我方棋子，如果不是，添加到全局json
+			global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
+	}
+	// 设置棋位为活跃可吃棋位
+	set_chessman_active(camp);
+}
+
+// 双方炮的规则
+function common_cannon(e,camp){
 	// 获取当前棋子的位置
 	var position = parseInt($(e).attr('position'));
 	// 获取个位
@@ -89,7 +251,7 @@ function cannon(e){
 	while(i < 110){
 		if($(".chess_board img[position='"+i+"']").attr('name') != 'null'){
 			// 判断是不是我方棋子，不是我方棋子才添加至全局json
-			if($(".chess_board img[position='"+i+"']").attr('chessman').substring(0,1)!='r'){
+			if($(".chess_board img[position='"+i+"']").attr('chessman').substring(0,1)!=camp){
 				// 添加至全局json
 				global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
 				// 跳出循环
@@ -127,7 +289,7 @@ function cannon(e){
 	while(j < 10){
 		if($(".chess_board img[position='"+i+"']").attr('name') != 'null'){
 			// 判断是不是我方棋子，不是我方棋子才添加至全局json
-			if($(".chess_board img[position='"+i+"']").attr('chessman').substring(0,1)!='r'){
+			if($(".chess_board img[position='"+i+"']").attr('chessman').substring(0,1)!=camp){
 				// 添加至全局json
 				global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
 				// 跳出循环
@@ -163,7 +325,7 @@ function cannon(e){
 	while(i > 10){
 		if($(".chess_board img[position='"+i+"']").attr('name') != 'null'){
 			// 判断是否是我方棋子，不是我方棋子，代表可以吃，添加至全局json
-			if($(".chess_board img[position='"+i+"']").attr('chessman').substring(0,1)!='r'){
+			if($(".chess_board img[position='"+i+"']").attr('chessman').substring(0,1)!=camp){
 				// 添加至全局json
 				global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
 				// 跳出循环
@@ -201,7 +363,7 @@ function cannon(e){
 	while(j > 0){
 		if($(".chess_board img[position='"+i+"']").attr('name') != 'null'){
 			// 判断是否是我方棋子，不是我方棋子，代表可以吃，添加至全局json
-			if($(".chess_board img[position='"+i+"']").attr('chessman').substring(0,1)!='r'){
+			if($(".chess_board img[position='"+i+"']").attr('chessman').substring(0,1)!=camp){
 				// 添加至全局json
 				global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
 				// 跳出循环
@@ -219,40 +381,81 @@ function cannon(e){
 		j --;
 	}
 	// 设置棋位为活跃可吃棋位
-	set_chessman_active();
-	
+	set_chessman_active(camp);
+
 }
-function soldier(e){
+// 黑色方兵的规则
+function black_soldier(e,camp){
+	// 在我黑色方棋盘内
+	if($(e).attr('position') > 60){
+		// 得到兵可走的位置
+		var new_position = parseInt($(e).attr('position')) - 10;
+		// 把可走的位置原来的信息存在一个json数据中
+		global_target[new_position] = $(".chess_board img[position='"+new_position+"']").attr('src');
+		// 设置可走棋位
+		set_chessman_active(camp);
+	// 在对方棋盘内
+	}else{
+		// 获取当前棋子的位置
+		var position = parseInt($(e).attr('position'));
+		// 获取个位
+		var units = position - ((Math.floor(position/10))*10);
+		// 用switch判断
+		switch(units)
+		{
+			// 为9表示是右侧边缘
+			case 9:
+				// 获取下左棋位的src
+				var up = $(".chess_board img[position='"+(position-10)+"']").attr('src');
+				var left = $(".chess_board img[position='"+(position-1)+"']").attr('src');
+				// 添加到全局json
+				if(position > 20){
+					global_target[position-10] = up;
+				}
+				global_target[position-1] = left;
+				// 跳出switch
+			    break;
+			// 为1表示是左侧边缘
+			case 1:
+				// 获取下右棋位的src
+				var up = $(".chess_board img[position='"+(position-10)+"']").attr('src');
+				var right = $(".chess_board img[position='"+(position+1)+"']").attr('src');
+				// 添加到全局json
+				if(position > 20){
+					global_target[position-10] = up;
+				}
+				global_target[position+1] = right;
+				// 跳出switch
+				break;
+			// 否则表示不是边缘
+			default:
+				// 获取下左右棋位的src，因为兵不能后退
+				var up = $(".chess_board img[position='"+(position-10)+"']").attr('src');
+				var right = $(".chess_board img[position='"+(position+1)+"']").attr('src');
+				var left = $(".chess_board img[position='"+(position-1)+"']").attr('src');
+				// 添加到全局json
+				if(position > 20){
+					global_target[position-10] = up;
+				}
+				global_target[position-1] = left;
+				global_target[position+1] = right;
+		}
+		// 循环全局json的活跃可吃棋位
+		set_chessman_active(camp);
+		
+	}
+
+}
+// 红方兵的规则
+function red_soldier(e,camp){
 	// 在我方棋盘内
 	if($(e).attr('position') < 60){
 		// 得到兵可走的位置
 		var new_position = parseInt($(e).attr('position')) + 10;
 		// 把可走的位置原来的信息存在一个json数据中
 		global_target[new_position] = $(".chess_board img[position='"+new_position+"']").attr('src');
-		// 获取可走位置的name值
-		var attr_name = $(".chess_board img[position='"+new_position+"']").attr('name');
-		// 获取可走位的chessman值
-		var attr_chessman = $(".chess_board img[position='"+new_position+"']").attr('chessman');
-		// 如果为null代表是空棋位，否则是有其他棋子
-		if(attr_name == 'null'){
-			// 设置可走的位置为活跃
-			$(".chess_board img[position='"+new_position+"']").attr('src','./images_chess/XQSTUDIO/OOS.GIF');
-			// 设置棋位的chessman_position值为active
-			$(".chess_board img[position='"+new_position+"']").attr('chessman_position','active');
-		}
-		// 如果不是的棋子才给可走棋位
-		else if(attr_chessman.substring(0,1)!='r'){
-			// 获取可走棋位的src
-			var s = $(".chess_board img[position='"+new_position+"']").attr('src');
-			// 拼接字符串
-			s = s.substring(0,s.length-4) + 'S.GIF'
-			// 设置可走棋位的src为活跃状态
-			$(".chess_board img[position='"+new_position+"']").attr('src',s);
-			// 设置chessman_position为active
-			$(".chess_board img[position='"+new_position+"']").attr('chessman_position','active');
-			// 设置name为chessman_active
-			$(".chess_board img[position='"+new_position+"']").attr('name','chessman_active');
-		}
+		// 设置可走棋位
+		set_chessman_active(camp);
 	// 在对方棋盘内
 	}else{
 		// 获取当前棋子的位置
@@ -288,7 +491,7 @@ function soldier(e){
 				break;
 			// 否则表示不是边缘
 			default:
-				// 获取上左右棋位的src，因为兵不能
+				// 获取上左右棋位的src，因为兵不能后退
 				var up = $(".chess_board img[position='"+(position+10)+"']").attr('src');
 				var right = $(".chess_board img[position='"+(position+1)+"']").attr('src');
 				var left = $(".chess_board img[position='"+(position-1)+"']").attr('src');
@@ -300,7 +503,7 @@ function soldier(e){
 				global_target[position+1] = right;
 		}
 		// 循环全局json的活跃可吃棋位
-		set_chessman_active();
+		set_chessman_active(camp);
 		
 	}
 
@@ -401,8 +604,10 @@ $('.chess_board').on('click',"img[name='chessman']",function(){
 				red_status = 1;
 				// 把该棋子的src装进全局src
 				global_src = s;
+				// 获取是哪方阵营
+				var camp = $(this).attr('chessman').substring(0,1);
 				// 调用规则
-				rule(this);
+				rule(this,camp);
 			}
 		}
 });
