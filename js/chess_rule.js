@@ -12,6 +12,7 @@ function rule(e,camp,next=1){
 		 	red_soldier(e,camp,next);
 		}else{
 			red_soldier(e,camp,next);
+			// 查看是否将军
 			checkmate();
 		}
 	  break;
@@ -21,6 +22,7 @@ function rule(e,camp,next=1){
 		 	black_soldier(e,camp,next);
 		}else{
 			black_soldier(e,camp,next);
+			// 查看是否将军
 			checkmate();
 		}
 	  break;
@@ -30,6 +32,7 @@ function rule(e,camp,next=1){
 		 	common_cannon(e,camp,next);
 		}else{
 			common_cannon(e,camp,next);
+			// 查看是否将军
 			checkmate();
 		}
 	  break;
@@ -39,6 +42,7 @@ function rule(e,camp,next=1){
 		 	common_cannon(e,camp,next);
 		}else{
 			common_cannon(e,camp,next);
+			// 查看是否将军
 			checkmate();
 		}
 	  break;
@@ -48,6 +52,7 @@ function rule(e,camp,next=1){
 		 	common_chariots(e,camp,next);
 		}else{
 			common_chariots(e,camp,next);
+			// 查看是否将军
 			checkmate();
 		}
 	  break;
@@ -57,6 +62,7 @@ function rule(e,camp,next=1){
 		 	common_chariots(e,camp,next);
 		}else{
 			common_chariots(e,camp,next);
+			// 查看是否将军
 			checkmate();
 		}
 	  break;
@@ -66,6 +72,7 @@ function rule(e,camp,next=1){
 		 	common_horse(e,camp,next);
 		}else{
 			common_horse(e,camp,next);
+			// 查看是否将军
 			checkmate();
 		}
 	  break;
@@ -75,22 +82,43 @@ function rule(e,camp,next=1){
 		 	common_horse(e,camp,next);
 		}else{
 			common_horse(e,camp,next);
+			// 查看是否将军
 			checkmate();
 		}
 	  break;
 	case 'r_x':
 	  // 调用红色方相的规则
-	  red_elephants(e,camp,next);
+	  if(next){
+	  	red_elephants(e,camp,next);
+	  }
 	  break;
 	case 'b_x':
-	  // 调用红色方相的规则
-	  black_elephants(e,camp,next);
+	  // 调用黑色方相的规则
+	  if(next){
+	  	black_elephants(e,camp,next);
+	  }
 	  break;
 	case 'r_s':
-	  // soldier(e);
+	  // 调动红色方士的规则
+	  if(next){
+		red_guards(e,camp,next);
+	  }
+	  break;
+	case 'b_s':
+	  // 调动黑色方士的规则
+	  if(next){
+		black_guards(e,camp,next);
+	  }
 	  break;
 	case 'r_boos':
-	  // soldier(e);
+	  if(next){
+	  	red_generals(e,camp,next);
+	  }
+	  break;
+	case 'b_boos':
+	  if(next){
+	  	black_generals(e,camp,next);
+	  }
 	  break;
 	default:
 	}
@@ -123,6 +151,7 @@ function set_chessman_active(camp){
 			$(".chess_board img[position='"+name+"']").attr('chessman_position','active');
 		}
 	});	
+
 	
 }
 // 查看棋子的下一步是否将军
@@ -141,6 +170,77 @@ function checkmate(){
 	});
 	// 清空全局步骤json
 	global_target = {};
+}
+function red_generals(e,camp,next){
+	
+}
+// 黑色方士的规则
+function black_guards(e,camp,next=1){
+	// 获取当前棋子的位置
+	var position = parseInt($(e).attr('position'));
+	// 把当前棋子位置赋值给i，用于上下棋位的判断
+	var i = position;
+	// 左边士的可走位置
+	if(i == 104){
+		global_target[i-9] = $(".chess_board img[position='"+(i-9)+"']").attr('src');
+	}
+	// 右边士的可走位置
+	if(i == 106){
+		global_target[i-11] = $(".chess_board img[position='"+(i-11)+"']").attr('src');
+	}
+	// 中间士的可走位置
+	if(i == 95){
+		global_target[i-11] = $(".chess_board img[position='"+(i-11)+"']").attr('src');
+		global_target[i-9] = $(".chess_board img[position='"+(i-9)+"']").attr('src');
+		global_target[i+11] = $(".chess_board img[position='"+(i-11)+"']").attr('src');
+		global_target[i+9] = $(".chess_board img[position='"+(i-9)+"']").attr('src');
+	}
+	// 左上士的可走位置
+	if(i == 84){
+		global_target[i+11] = $(".chess_board img[position='"+(i+11)+"']").attr('src');
+	}
+	// 右上士的可走位置
+	if(i == 86){
+		global_target[i+9] = $(".chess_board img[position='"+(i+9)+"']").attr('src');
+	}
+	if(next){
+		// 循环全局json的活跃可吃棋位
+		set_chessman_active(camp);
+	}
+}
+// 红色方士的规则
+function red_guards(e,camp,next=1){
+	// 获取当前棋子的位置
+	var position = parseInt($(e).attr('position'));
+	// 把当前棋子位置赋值给i，用于上下棋位的判断
+	var i = position;
+	// 左边士的可走位置
+	if(i == 14){
+		global_target[i+11] = $(".chess_board img[position='"+(i+11)+"']").attr('src');
+	}
+	// 右边士的可走位置
+	if(i == 16){
+		global_target[i+9] = $(".chess_board img[position='"+(i+9)+"']").attr('src');
+	}
+	// 中间士的可走位置
+	if(i == 25){
+		global_target[i-11] = $(".chess_board img[position='"+(i-11)+"']").attr('src');
+		global_target[i-9] = $(".chess_board img[position='"+(i-9)+"']").attr('src');
+		global_target[i+11] = $(".chess_board img[position='"+(i-11)+"']").attr('src');
+		global_target[i+9] = $(".chess_board img[position='"+(i-9)+"']").attr('src');
+	}
+	// 左上士的可走位置
+	if(i == 34){
+		global_target[i+9] = $(".chess_board img[position='"+(i+9)+"']").attr('src');
+	}
+	// 右上士的可走位置
+	if(i == 36){
+		global_target[i-9] = $(".chess_board img[position='"+(i-9)+"']").attr('src');
+	}
+	if(next){
+		// 循环全局json的活跃可吃棋位
+		set_chessman_active(camp);
+	}
 }
 // 黑色方相的规则
 function black_elephants(e,camp,next=1){
@@ -167,6 +267,10 @@ function black_elephants(e,camp,next=1){
 		}
 		if( units == 7 && ($(".chess_board img[position='"+(i-11)+"']").attr('name') == 'null')){
 			global_target[i-22] = $(".chess_board img[position='"+(i-22)+"']").attr('src');
+		}
+		if(next){
+		// 循环全局json的活跃可吃棋位
+		set_chessman_active(camp);
 		}
 	}
 	// 第三排三相可走位置
