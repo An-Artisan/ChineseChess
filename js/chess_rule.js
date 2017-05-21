@@ -110,12 +110,12 @@ function rule(e,camp,next=1){
 		black_guards(e,camp,next);
 	  }
 	  break;
-	case 'r_boos':
+	case 'r_boss':
 	  if(next){
 	  	red_generals(e,camp,next);
 	  }
 	  break;
-	case 'b_boos':
+	case 'b_boss':
 	  if(next){
 	  	black_generals(e,camp,next);
 	  }
@@ -171,8 +171,155 @@ function checkmate(){
 	// 清空全局步骤json
 	global_target = {};
 }
+// 黑方将可走位置
+function black_generals(e,camp,next){
+	// 获取当前棋子的位置
+	var position = parseInt($(e).attr('position'));
+	// 当前棋子位置直接 +10 用于判断帅和将是否面对面
+	var i = position - 10;
+	// 获取对方的boss名称
+	var boss = (global_camp == 'black') ? 'r_boss' : 'b_boss';
+	// 判断boss是否面对面
+	while(i > 10){
+		// 判断是否是空棋位，如果不是空棋位在判断是不是对面的帅或者将。
+		if(($(".chess_board img[position='"+i+"']").attr('name') == 'null')){
+			// 自增10 ，结束本次循环
+			i -= 10;
+			continue;
+		}
+		if(($(".chess_board img[position='"+i+"']").attr('chessman') != boss)){
+			break;
+		}else{
+			global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
+			break;
+		}
+		
+	}
+	// 重新赋值
+	i = position;
+	// 将的可走位置分别判断
+	if(i == 104){
+		global_target[i-10] = $(".chess_board img[position='"+(i-10)+"']").attr('src');
+		global_target[i+1] = $(".chess_board img[position='"+(i+1)+"']").attr('src');
+	}
+	if(i == 94){
+		global_target[i+10] = $(".chess_board img[position='"+(i+10)+"']").attr('src');
+		global_target[i+1] = $(".chess_board img[position='"+(i+1)+"']").attr('src');
+		global_target[i-10] = $(".chess_board img[position='"+(i-10)+"']").attr('src');
+	}
+	if(i == 105){
+		global_target[i-10] = $(".chess_board img[position='"+(i-10)+"']").attr('src');
+		global_target[i+1] = $(".chess_board img[position='"+(i+1)+"']").attr('src');
+		global_target[i-1] = $(".chess_board img[position='"+(i-1)+"']").attr('src');
+	}
+	if(i == 106){
+		global_target[i-10] = $(".chess_board img[position='"+(i-10)+"']").attr('src');
+		global_target[i-1] = $(".chess_board img[position='"+(i-1)+"']").attr('src');
+	}
+	if(i == 96){
+		global_target[i+10] = $(".chess_board img[position='"+(i+10)+"']").attr('src');
+		global_target[i-1] = $(".chess_board img[position='"+(i-1)+"']").attr('src');
+		global_target[i-10] = $(".chess_board img[position='"+(i-10)+"']").attr('src');
+	}
+	if(i == 95){
+		global_target[i+10] = $(".chess_board img[position='"+(i+10)+"']").attr('src');
+		global_target[i-1] = $(".chess_board img[position='"+(i-1)+"']").attr('src');
+		global_target[i-10] = $(".chess_board img[position='"+(i-10)+"']").attr('src');
+		global_target[i+1] = $(".chess_board img[position='"+(i+1)+"']").attr('src');
+	}
+	if(i == 84){
+		global_target[i+1] = $(".chess_board img[position='"+(i+1)+"']").attr('src');
+		global_target[i+10] = $(".chess_board img[position='"+(i+10)+"']").attr('src');
+	}
+	if(i == 85){
+		global_target[i+1] = $(".chess_board img[position='"+(i+1)+"']").attr('src');
+		global_target[i-1] = $(".chess_board img[position='"+(i-1)+"']").attr('src');
+		global_target[i+10] = $(".chess_board img[position='"+(i+10)+"']").attr('src');
+	}
+	if(i == 36){
+		global_target[i-1] = $(".chess_board img[position='"+(i-1)+"']").attr('src');
+		global_target[i+10] = $(".chess_board img[position='"+(i+10)+"']").attr('src');
+	}
+	if(next){
+		// 循环全局json的活跃可吃棋位
+		set_chessman_active(camp);
+	}
+
+}
+// 红方将可走位置
 function red_generals(e,camp,next){
-	
+	// 获取当前棋子的位置
+	var position = parseInt($(e).attr('position'));
+	// 当前棋子位置直接 +10 用于判断帅和将是否面对面
+	var i = position + 10;
+	// 获取对方的boss名称
+	var boss = (global_camp == 'black') ? 'r_boss' : 'b_boss';
+	// 判断boss是否面对面
+	while(i < 110){
+		// 判断是否是空棋位，如果不是空棋位在判断是不是对面的帅或者将。
+		if(($(".chess_board img[position='"+i+"']").attr('name') == 'null')){
+			// 自增10 ，结束本次循环
+			i += 10;
+			continue;
+		}
+		if(($(".chess_board img[position='"+i+"']").attr('chessman') != boss)){
+			break;
+		}else{
+			global_target[i] = $(".chess_board img[position='"+i+"']").attr('src');
+			break;
+		}
+		
+	}
+	// 重新赋值
+	i = position;
+	// 将的可走位置分别判断
+	if(i == 14){
+		global_target[i+10] = $(".chess_board img[position='"+(i+10)+"']").attr('src');
+		global_target[i+1] = $(".chess_board img[position='"+(i+1)+"']").attr('src');
+	}
+	if(i == 24){
+		global_target[i+10] = $(".chess_board img[position='"+(i+10)+"']").attr('src');
+		global_target[i+1] = $(".chess_board img[position='"+(i+1)+"']").attr('src');
+		global_target[i-10] = $(".chess_board img[position='"+(i-10)+"']").attr('src');
+	}
+	if(i == 15){
+		global_target[i+10] = $(".chess_board img[position='"+(i+10)+"']").attr('src');
+		global_target[i+1] = $(".chess_board img[position='"+(i+1)+"']").attr('src');
+		global_target[i-1] = $(".chess_board img[position='"+(i-1)+"']").attr('src');
+	}
+	if(i == 16){
+		global_target[i+10] = $(".chess_board img[position='"+(i+10)+"']").attr('src');
+		global_target[i-1] = $(".chess_board img[position='"+(i-1)+"']").attr('src');
+	}
+	if(i == 26){
+		global_target[i+10] = $(".chess_board img[position='"+(i+10)+"']").attr('src');
+		global_target[i-1] = $(".chess_board img[position='"+(i-1)+"']").attr('src');
+		global_target[i-10] = $(".chess_board img[position='"+(i-10)+"']").attr('src');
+	}
+	if(i == 25){
+		global_target[i+10] = $(".chess_board img[position='"+(i+10)+"']").attr('src');
+		global_target[i-1] = $(".chess_board img[position='"+(i-1)+"']").attr('src');
+		global_target[i-10] = $(".chess_board img[position='"+(i-10)+"']").attr('src');
+		global_target[i+1] = $(".chess_board img[position='"+(i+1)+"']").attr('src');
+	}
+	if(i == 34){
+		global_target[i+1] = $(".chess_board img[position='"+(i+1)+"']").attr('src');
+		global_target[i-10] = $(".chess_board img[position='"+(i-10)+"']").attr('src');
+	}
+	if(i == 35){
+		global_target[i+1] = $(".chess_board img[position='"+(i+1)+"']").attr('src');
+		global_target[i-1] = $(".chess_board img[position='"+(i-1)+"']").attr('src');
+		global_target[i-10] = $(".chess_board img[position='"+(i-10)+"']").attr('src');
+	}
+	if(i == 36){
+		global_target[i-1] = $(".chess_board img[position='"+(i-1)+"']").attr('src');
+		global_target[i-10] = $(".chess_board img[position='"+(i-10)+"']").attr('src');
+	}
+	if(next){
+		// 循环全局json的活跃可吃棋位
+		set_chessman_active(camp);
+	}
+
 }
 // 黑色方士的规则
 function black_guards(e,camp,next=1){

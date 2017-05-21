@@ -18,10 +18,13 @@ GatewayClient下载地址 https://github.com/walkor/GatewayClient
 <br>
 官网参考 [WorkerMan](http://www.workerman.net/)
 <br>
------------------------------------
+#####
 ### js完成象棋逻辑，php后台完成聊天逻辑，逻辑步骤通过websocket推送到workerman
 ![象棋demo](https://github.com/g1090035743/ChineseChess/blob/master/readme_images/demo.png)
+![象棋demo1](https://github.com/g1090035743/ChineseChess/blob/master/readme_images/demo1.png)
+![象棋demo2](https://github.com/g1090035743/ChineseChess/blob/master/readme_images/demo2.png)
 还在努力开发中o(╯□╰)o
 ===================================
-[我的主页](http://www.joker1996.com)
+[个人主页](http://www.joker1996.com)
+-----------------------------------
 <br />
