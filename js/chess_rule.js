@@ -1,7 +1,6 @@
-var red_status = 0;
-var black_status = 0;
 var global_src = null;
 var global_target = {};
+var global_camp = 'red';
 function rule(e,camp){
 	// 获取棋子的类型
 	var chessman = $(e).attr('chessman');
@@ -25,11 +24,11 @@ function rule(e,camp){
 	  break;
 	case 'r_j':
 	  // 调用红色車的公共规则
-	  common_car(e,camp);
+	  common_chariots(e,camp);
 	  break;
 	case 'b_j':
 	  // 调用黑色車的公共规则
-	  common_car(e,camp);
+	  common_chariots(e,camp);
 	  break;
 	case 'r_m':
 	  // 调用红色马的规则
@@ -40,7 +39,12 @@ function rule(e,camp){
 	  common_horse(e,camp);
 	  break;
 	case 'r_x':
-	  // soldier(e);
+	  // 调用红色方相的规则
+	  red_elephants(e,camp);
+	  break;
+	case 'b_x':
+	  // 调用红色方相的规则
+	  black_elephants(e,camp);
 	  break;
 	case 'r_s':
 	  // soldier(e);
@@ -82,6 +86,162 @@ function set_chessman_active(camp){
 		}
 		
 	});
+}
+// 黑色方相的规则
+function black_elephants(e,camp){
+	// 获取当前棋子的位置
+	var position = parseInt($(e).attr('position'));
+	// 获取个位
+	var units = position - ((Math.floor(position/10))*10);
+	// 把当前棋子位置赋值给i，用于上下棋位的判断
+	var i = position;
+	// 把当前棋子的位置个位数赋值给j，用于左右棋位的判断
+	var j = units;
+	// 第一排双相的可走位置
+	if(position > 100){
+		// 左边相可走位置
+		if( units == 3 && ($(".chess_board img[position='"+(i-9)+"']").attr('name') == 'null') ){
+			global_target[i-18] = $(".chess_board img[position='"+(i-18)+"']").attr('src');
+		}
+		if( units == 3 && ($(".chess_board img[position='"+(i-11)+"']").attr('name') == 'null') ){
+			global_target[i-22] = $(".chess_board img[position='"+(i-22)+"']").attr('src');
+		}
+		// 右边相可走位置
+		if( units == 7 && ($(".chess_board img[position='"+(i-9)+"']").attr('name') == 'null')){
+			global_target[i-18] = $(".chess_board img[position='"+(i-18)+"']").attr('src');
+		}
+		if( units == 7 && ($(".chess_board img[position='"+(i-11)+"']").attr('name') == 'null')){
+			global_target[i-22] = $(".chess_board img[position='"+(i-22)+"']").attr('src');
+		}
+	}
+	// 第三排三相可走位置
+	if(position > 80 && position < 90){
+		// 左边相可走位置
+		if( units == 1 && ($(".chess_board img[position='"+(i+11)+"']").attr('name') == 'null')){
+			global_target[i+22] = $(".chess_board img[position='"+(i+22)+"']").attr('src');
+			console.log(1);
+
+		}
+		if( units == 1 && ($(".chess_board img[position='"+(i-9)+"']").attr('name') == 'null')){
+			global_target[i-18] = $(".chess_board img[position='"+(i-18)+"']").attr('src');
+		}
+		// 中间相可走位置
+		if( units == 5 && ($(".chess_board img[position='"+(i+11)+"']").attr('name') == 'null')){
+			global_target[i+22] = $(".chess_board img[position='"+(i+22)+"']").attr('src');
+		}
+		if( units == 5 && ($(".chess_board img[position='"+(i+9)+"']").attr('name') == 'null')){
+			global_target[i+18] = $(".chess_board img[position='"+(i+18)+"']").attr('src');
+		}
+		if( units == 5 && ($(".chess_board img[position='"+(i-9)+"']").attr('name') == 'null')){
+			global_target[i-18] = $(".chess_board img[position='"+(i-18)+"']").attr('src');
+		}
+		if( units == 5 && ($(".chess_board img[position='"+(i-11)+"']").attr('name') == 'null') ){
+			global_target[i-22] = $(".chess_board img[position='"+(i-22)+"']").attr('src');
+		}
+		// 右边相可走位置
+		if( units == 9 && ($(".chess_board img[position='"+(i-11)+"']").attr('name') == 'null')){
+			global_target[i-22] = $(".chess_board img[position='"+(i-22)+"']").attr('src');
+		}
+		if( units == 9 && ($(".chess_board img[position='"+(i+9)+"']").attr('name') == 'null') ){
+			global_target[i+18] = $(".chess_board img[position='"+(i+18)+"']").attr('src');
+		}
+	}
+	// 第五排双相可走位置
+	if(position < 70 && position > 60){
+		// 左边相可走位置
+		if( units == 3 && ($(".chess_board img[position='"+(i+9)+"']").attr('name') == 'null')){
+			global_target[i+18] = $(".chess_board img[position='"+(i+18)+"']").attr('src');
+		}
+		if( units == 3 && ($(".chess_board img[position='"+(i+11)+"']").attr('name') == 'null')){
+			global_target[i+22] = $(".chess_board img[position='"+(i+22)+"']").attr('src');
+		}
+		// 右边相可走位置
+		if( units == 7 && ($(".chess_board img[position='"+(i+9)+"']").attr('name') == 'null')){
+			global_target[i+18] = $(".chess_board img[position='"+(i+18)+"']").attr('src');
+		}
+		if( units == 7 && ($(".chess_board img[position='"+(i+11)+"']").attr('name') == 'null')){
+			global_target[i+22] = $(".chess_board img[position='"+(i+22)+"']").attr('src');
+		}
+	}
+	// 设置可走棋位
+	set_chessman_active(camp);
+}
+// 红色方相的规则
+function red_elephants(e,camp){
+	// 获取当前棋子的位置
+	var position = parseInt($(e).attr('position'));
+	// 获取个位
+	var units = position - ((Math.floor(position/10))*10);
+	// 把当前棋子位置赋值给i，用于上下棋位的判断
+	var i = position;
+	// 把当前棋子的位置个位数赋值给j，用于左右棋位的判断
+	var j = units;
+	// 第一排双相的可走位置
+	if(position < 20){
+		// 左边相可走位置
+		if( units == 3 && ($(".chess_board img[position='"+(i+9)+"']").attr('name') == 'null')){
+			global_target[i+18] = $(".chess_board img[position='"+(i+18)+"']").attr('src');
+		}
+		if( units == 3 && ($(".chess_board img[position='"+(i+11)+"']").attr('name') == 'null')){
+			global_target[i+22] = $(".chess_board img[position='"+(i+22)+"']").attr('src');
+		}
+		// 右边相可走位置
+		if( units == 7 && ($(".chess_board img[position='"+(i+9)+"']").attr('name') == 'null')){
+			global_target[i+18] = $(".chess_board img[position='"+(i+18)+"']").attr('src');
+		}
+		if( units == 7 && ($(".chess_board img[position='"+(i+11)+"']").attr('name') == 'null')){
+			global_target[i+22] = $(".chess_board img[position='"+(i+22)+"']").attr('src');
+		}
+	}
+	// 第三排三相可走位置
+	if(position > 30 && position < 40){
+		// 左边相可走位置
+		if( units == 1 && ($(".chess_board img[position='"+(i-9)+"']").attr('name') == 'null')){
+			global_target[i-18] = $(".chess_board img[position='"+(i-18)+"']").attr('src');
+		}
+		if( units == 1 && ($(".chess_board img[position='"+(i+11)+"']").attr('name') == 'null')){
+			global_target[i+22] = $(".chess_board img[position='"+(i+22)+"']").attr('src');
+		}
+		// 中间相可走位置
+		if( units == 5 && ($(".chess_board img[position='"+(i-11)+"']").attr('name') == 'null') ){
+			global_target[i-22] = $(".chess_board img[position='"+(i-22)+"']").attr('src');
+		}
+		if( units == 5 && ($(".chess_board img[position='"+(i-9)+"']").attr('name') == 'null') ){
+			global_target[i-18] = $(".chess_board img[position='"+(i-18)+"']").attr('src');
+		}
+		if( units == 5 && ($(".chess_board img[position='"+(i+9)+"']").attr('name') == 'null') ){
+			global_target[i+18] = $(".chess_board img[position='"+(i+18)+"']").attr('src');
+		}
+		if( units == 5 && ($(".chess_board img[position='"+(i+11)+"']").attr('name') == 'null')){
+			global_target[i+22] = $(".chess_board img[position='"+(i+22)+"']").attr('src');
+		}
+		// 右边相可走位置
+		if( units == 9 && ($(".chess_board img[position='"+(i-11)+"']").attr('name') == 'null')){
+			global_target[i-22] = $(".chess_board img[position='"+(i-22)+"']").attr('src');
+		}
+		if( units == 9 && ($(".chess_board img[position='"+(i+9)+"']").attr('name') == 'null')){
+			global_target[i+18] = $(".chess_board img[position='"+(i+18)+"']").attr('src');
+		}
+	}
+	// 第五排双相可走位置
+	if(position < 60 && position > 50){
+		// 左边相可走位置
+		if( units == 3 && ($(".chess_board img[position='"+(i-9)+"']").attr('name') == 'null') ){
+			global_target[i-18] = $(".chess_board img[position='"+(i-18)+"']").attr('src');
+		}
+		if( units == 3 && ($(".chess_board img[position='"+(i-11)+"']").attr('name') == 'null') ){
+			global_target[i-22] = $(".chess_board img[position='"+(i-22)+"']").attr('src');
+		}
+		// 右边相可走位置
+		if( units == 7 && ($(".chess_board img[position='"+(i-9)+"']").attr('name') == 'null') ){
+			global_target[i-18] = $(".chess_board img[position='"+(i-18)+"']").attr('src');
+		}
+		if( units == 7 && ($(".chess_board img[position='"+(i-11)+"']").attr('name') == 'null')){
+			global_target[i-22] = $(".chess_board img[position='"+(i-22)+"']").attr('src');
+		}
+	}
+	// 设置可走棋位
+	set_chessman_active(camp);
 }
 // 双方马的公共规则
 function common_horse(e,camp){
@@ -142,7 +302,7 @@ function common_horse(e,camp){
 	set_chessman_active(camp);
 }
 // 双方車的规则
-function common_car(e,camp){
+function common_chariots(e,camp){
 	// 获取当前棋子的位置
 	var position = parseInt($(e).attr('position'));
 	// 获取个位
@@ -509,8 +669,17 @@ function red_soldier(e,camp){
 
 
 }
+$('.chess_board #red img[name="chessman"]').each(function(){
+	$(this).attr('camp','red');
+});
+$('.chess_board #black img[name="chessman"]').each(function(){
+	$(this).attr('camp','black');
+});
 // 活跃棋位的点击
 $('.chess_board').on('click',"img[chessman_position='active']",function(){
+		// 设置哪方可走
+		global_camp = (global_camp == 'red') ? 'black' : 'red';
+		(global_camp == 'red') ? $(this).attr('camp','black') : $(this).attr('camp','red');
 		// 获取活跃棋子的src
 		var active_src = $(".chess_board img[status='active']").attr('src');
 		// 得到不活跃棋子的src
@@ -533,8 +702,6 @@ $('.chess_board').on('click',"img[chessman_position='active']",function(){
 		$(".chess_board img[status='active']").removeAttr('chessman');
 		// 设置之前棋子的状态为inactive
 		$(".chess_board img[status='active']").attr('status','inactive');
-		// 把红旗状态设置为0
-		red_status = 0;
 		// 把global_target 清空 
 		global_target = {};
 		$("img[chessman_position='active']").each(function(){
@@ -548,11 +715,16 @@ $('.chess_board').on('click',"img[chessman_position='active']",function(){
 			$(this).attr('src',s);
 			// 移除chessman_position
 			$(this).removeAttr('chessman_position');
+			
 		});
 		
 	});
 // 棋子的点击事件
 $('.chess_board').on('click',"img[name='chessman']",function(){
+		if(global_camp != $(this).attr('camp')){
+			console.log(global_camp);
+			return false;
+		}
 		var src;
 		// 设置棋子状态为非活跃
 		if($(this).attr("status")=="active"){
@@ -566,8 +738,6 @@ $('.chess_board').on('click',"img[name='chessman']",function(){
 			$(this).attr('src',s);
 			// 设置棋子的状态为 inactive
 			$(this).attr('status','inactive');
-			// 设置全局状态为false
-			red_status = 0;
 			// 设置全局src为null
 			global_src = null;
 			// 把所有能走的棋盘恢复原状
@@ -589,7 +759,6 @@ $('.chess_board').on('click',"img[name='chessman']",function(){
 		}
 		// 设置棋子状态为活跃
 		else{
-			if(red_status == 0){
 				// 获取当前棋子的src
 				src = $(this).attr('src');
 				// 把src最后的 .GIF去掉
@@ -600,14 +769,12 @@ $('.chess_board').on('click',"img[name='chessman']",function(){
 				$(this).attr('src',s);
 				// 设置棋子的状态为 active
 				$(this).attr('status','active');
-				// 设置全局状态为true
-				red_status = 1;
 				// 把该棋子的src装进全局src
 				global_src = s;
 				// 获取是哪方阵营
 				var camp = $(this).attr('chessman').substring(0,1);
 				// 调用规则
 				rule(this,camp);
-			}
 		}
 });
+
