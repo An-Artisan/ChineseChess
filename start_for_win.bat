@@ -1,0 +1,2 @@
+php ChineseChess\ChineseChess\start_register.php ChineseChess\ChineseChess\start_gateway.php ChineseChess\ChineseChess\start_businessworker.php
+pause
