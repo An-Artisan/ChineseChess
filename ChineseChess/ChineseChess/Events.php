@@ -35,11 +35,27 @@ class Events
      * @param int $client_id 连接id
      */
     public static function onConnect($client_id)
-    {
-        // 向当前client_id发送数据 
-        Gateway::sendToClient($client_id, "Hello $client_id\r\n");
+    {   Gateway::sendToCurrentClient(json_encode(array(
+                        'type'=>'currentLogin',
+                        'client_id'=>$client_id, 
+                    )));
+        Gateway::joinGroup($client_id, 'test');
+        $count = Gateway::getClientCountByGroup('test');
+        if($count == 2){
+          $user = Gateway::getClientSessionsByGroup('test');
+          foreach ($user as $key => $value) {
+                $users[] = $key;
+          }
+          // 向当前client_id发送数据 
+          $new_message = array(
+                        'type'=>'otherLogin',
+                        'client_id_one'=>$users[0], 
+                        'client_id_two'=>$users[1], 
+                    );
+          Gateway::sendToGroup('test', json_encode($new_message));
+        }
         // 向所有人发送
-        Gateway::sendToAll("$client_id login\r\n");
+        // Gateway::sendToAll("$client_id login\r\n");
     }
     
    /**
@@ -48,9 +64,18 @@ class Events
     * @param mixed $message 具体消息
     */
    public static function onMessage($client_id, $message)
-   {
+   {    
+        // 客户端传递的是json数据
+        $message_data = json_decode($message, true);
+        // 向对方发送数据
+        var_dump($message_data);
+         Gateway::sendToClient($message_data['client_id'],  json_encode(array(
+                        'type'=>'move',
+                        'message' =>$message_data['message']
+                       
+                    )));
         // 向所有人发送 
-        Gateway::sendToAll("$client_id said $message\r\n");
+        // Gateway::sendToAll("$client_id said $message\r\n");
    }
    
    /**
@@ -60,6 +85,6 @@ class Events
    public static function onClose($client_id)
    {
        // 向所有人发送 
-       GateWay::sendToAll("$client_id logout\r\n");
+       // GateWay::sendToAll("$client_id logout\r\n");
    }
 }

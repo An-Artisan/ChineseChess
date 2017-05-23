@@ -1,0 +1,112 @@
+2017-05-23 16:48:24 exception 'Exception' with message 'You can't send(array) to client, you need to convert it to a string. ' in E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Protocols\Websocket.php:225
+Stack trace:
+#0 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(260): Workerman\Protocols\Websocket::encode(Array, Object(Workerman\Connection\TcpConnection))
+#1 E:\WebRoot\ChineseChess\vendor\workerman\gateway-worker-for-win\src\Gateway.php(554): Workerman\Connection\TcpConnection->send(Array)
+#2 [internal function]: GatewayWorker\Gateway->onWorkerMessage(Object(Workerman\Connection\TcpConnection), Array)
+#3 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(480): call_user_func(Array, Object(Workerman\Connection\TcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #32)
+#5 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Events\Select.php(257): call_user_func_array(Array, Array)
+#6 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Worker.php(808): Workerman\Events\Select->loop()
+#7 E:\WebRoot\ChineseChess\vendor\workerman\gateway-worker-for-win\src\Gateway.php(279): Workerman\Worker->run()
+#8 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Worker.php(457): GatewayWorker\Gateway->run()
+#9 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Worker.php(366): Workerman\Worker::runAllWorkers()
+#10 E:\WebRoot\ChineseChess\ChineseChess\ChineseChess\start_gateway.php(63): Workerman\Worker::runAll()
+#11 {main}
+2017-05-23 16:48:27 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:27 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:27 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:27 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:27 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:27 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:27 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:27 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:27 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:27 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:27 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:27 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:28 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:28 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:28 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:28 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:28 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:28 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:28 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:28 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:48 exception 'Exception' with message 'You can't send(array) to client, you need to convert it to a string. ' in E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Protocols\Websocket.php:225
+Stack trace:
+#0 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(260): Workerman\Protocols\Websocket::encode(Array, Object(Workerman\Connection\TcpConnection))
+#1 E:\WebRoot\ChineseChess\vendor\workerman\gateway-worker-for-win\src\Gateway.php(554): Workerman\Connection\TcpConnection->send(Array)
+#2 [internal function]: GatewayWorker\Gateway->onWorkerMessage(Object(Workerman\Connection\TcpConnection), Array)
+#3 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(480): call_user_func(Array, Object(Workerman\Connection\TcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #32)
+#5 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Events\Select.php(257): call_user_func_array(Array, Array)
+#6 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Worker.php(808): Workerman\Events\Select->loop()
+#7 E:\WebRoot\ChineseChess\vendor\workerman\gateway-worker-for-win\src\Gateway.php(279): Workerman\Worker->run()
+#8 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Worker.php(457): GatewayWorker\Gateway->run()
+#9 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Worker.php(366): Workerman\Worker::runAllWorkers()
+#10 E:\WebRoot\ChineseChess\ChineseChess\ChineseChess\start_gateway.php(63): Workerman\Worker::runAll()
+#11 {main}
+2017-05-23 16:48:52 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:52 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:52 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:52 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:52 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:52 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:52 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:52 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:52 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:52 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:52 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:52 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:54 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:54 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:54 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:54 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:54 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:54 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:54 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:54 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:54 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:54 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:54 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:54 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-05-23 16:48:55 exception 'Exception' with message 'You can't send(array) to client, you need to convert it to a string. ' in E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Protocols\Websocket.php:225
+Stack trace:
+#0 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(260): Workerman\Protocols\Websocket::encode(Array, Object(Workerman\Connection\TcpConnection))
+#1 E:\WebRoot\ChineseChess\vendor\workerman\gateway-worker-for-win\src\Gateway.php(554): Workerman\Connection\TcpConnection->send(Array)
+#2 [internal function]: GatewayWorker\Gateway->onWorkerMessage(Object(Workerman\Connection\TcpConnection), Array)
+#3 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(480): call_user_func(Array, Object(Workerman\Connection\TcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #96)
+#5 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Events\Select.php(257): call_user_func_array(Array, Array)
+#6 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Worker.php(808): Workerman\Events\Select->loop()
+#7 E:\WebRoot\ChineseChess\vendor\workerman\gateway-worker-for-win\src\Gateway.php(279): Workerman\Worker->run()
+#8 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Worker.php(457): GatewayWorker\Gateway->run()
+#9 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Worker.php(366): Workerman\Worker::runAllWorkers()
+#10 E:\WebRoot\ChineseChess\ChineseChess\ChineseChess\start_gateway.php(63): Workerman\Worker::runAll()
+#11 {main}
+2017-05-23 16:49:06 exception 'Exception' with message 'You can't send(array) to client, you need to convert it to a string. ' in E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Protocols\Websocket.php:225
+Stack trace:
+#0 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(260): Workerman\Protocols\Websocket::encode(Array, Object(Workerman\Connection\TcpConnection))
+#1 E:\WebRoot\ChineseChess\vendor\workerman\gateway-worker-for-win\src\Gateway.php(554): Workerman\Connection\TcpConnection->send(Array)
+#2 [internal function]: GatewayWorker\Gateway->onWorkerMessage(Object(Workerman\Connection\TcpConnection), Array)
+#3 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(480): call_user_func(Array, Object(Workerman\Connection\TcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #32)
+#5 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Events\Select.php(257): call_user_func_array(Array, Array)
+#6 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Worker.php(808): Workerman\Events\Select->loop()
+#7 E:\WebRoot\ChineseChess\vendor\workerman\gateway-worker-for-win\src\Gateway.php(279): Workerman\Worker->run()
+#8 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Worker.php(457): GatewayWorker\Gateway->run()
+#9 E:\WebRoot\ChineseChess\vendor\workerman\workerman-for-win\Worker.php(366): Workerman\Worker::runAllWorkers()
+#10 E:\WebRoot\ChineseChess\ChineseChess\ChineseChess\start_gateway.php(63): Workerman\Worker::runAll()
+#11 {main}

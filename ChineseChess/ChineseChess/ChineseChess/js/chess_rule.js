@@ -1,6 +1,8 @@
 var global_src = null;
 var global_target = {};
 var global_camp = 'red';
+// 聊天消息置于最底部
+document.getElementById('main_content').scrollTop = document.getElementById('main_content').scrollHeight;
 function rule(e,camp,next=1){
 	// 获取棋子的类型
 	var chessman = $(e).attr('chessman');
@@ -999,6 +1001,8 @@ $('.chess_board').on('click',"img[chessman_position='active']",function(){
 		var chessman = $(this).attr('chessman');
 		// 获取活跃棋子的src
 		var active_src = $(".chess_board img[status='active']").attr('src');
+		var before = $(".chess_board img[status='active']").get(0);
+		var after = $(this).get(0);
 		// 得到不活跃棋子的src
 		var s = active_src.substring(0,active_src.length-5);
 		// 拼接字符串
@@ -1045,6 +1049,9 @@ $('.chess_board').on('click',"img[chessman_position='active']",function(){
 			  location.reload();
 			});
 		}
+		console.log(other_client_id);
+		console.log(before,after);
+		ws.send('{"client_id":"'+other_client_id+'","message":"hello"}');
 		// 预测下一步是否将军
 		rule(this,$(this).attr('chessman').substring(0,1),0);
 		

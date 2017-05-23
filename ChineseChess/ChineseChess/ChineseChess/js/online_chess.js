@@ -1,3 +1,5 @@
+ var current_client_id;
+ var other_client_id;
  // 连接服务端
 function connect() {
    // 创建websocket
@@ -14,11 +16,27 @@ function connect() {
  	  console.log("出现错误");
    };
 }
-// connect();
+connect();
 function onopen(){
 
 }
 function onmessage(e){
-	console.log(e);
+	var data = eval("("+e.data+")");
+   if(data.type == 'currentLogin'){
+      current_client_id = data.client_id;
+         console.log(current_client_id);
+   }else if(data.type == 'otherLogin'){
+      if(data.client_id_one == current_client_id){
+         other_client_id = data.client_id_two;
+         console.log('current',current_client_id,'other',other_client_id);
+      }
+      else{
+         other_client_id = data.client_id_one;
+         console.log('current',current_client_id,'other',other_client_id);
+      }
+   }
+   else{
+         console.log(e);
+   }
 }
 
