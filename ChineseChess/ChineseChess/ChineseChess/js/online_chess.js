@@ -36,7 +36,12 @@ function onmessage(e){
       }
    }
    else{
-         console.log(e);
+         $("img[position='"+data.before_position+"']").attr('src',data.before_src);
+         $("img[position='"+data.before_position+"']").attr('name',data.before_name);
+         $("img[position='"+data.before_position+"']").attr('camp',data.before_camp);
+         $("img[position='"+data.after_position+"']").attr('name','null');
+         $("img[position='"+data.after_position+"']").attr('src','./images_chess/XQSTUDIO/OO.GIF');
+         global_camp = data.camp;
    }
 }
 

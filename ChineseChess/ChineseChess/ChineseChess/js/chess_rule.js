@@ -158,9 +158,11 @@ function set_chessman_active(camp){
 }
 // 查看棋子的下一步是否将军
 function checkmate(){
+
 	// 如果下一步该黑色方走，就判断能否将军黑色方将，否则判断红色方帅
-	var boss = (global_camp == 'black') ? 'b_boss' : 'r_boss';
+	var boss = (global_camp == 'black') ? 'r_boss' : 'b_boss';
 	// 循环下一步可走步骤
+	console.log(1,boss);
 	$.each(global_target,function(name,value) {
 		// 如果下一步可走步骤有对方的 将或者帅，就提示将军
 		if($(".chess_board img[position='"+name+"']").attr('chessman') == boss){
@@ -1001,8 +1003,8 @@ $('.chess_board').on('click',"img[chessman_position='active']",function(){
 		var chessman = $(this).attr('chessman');
 		// 获取活跃棋子的src
 		var active_src = $(".chess_board img[status='active']").attr('src');
-		var before = $(".chess_board img[status='active']").get(0);
-		var after = $(this).get(0);
+		var after = $(".chess_board img[status='active']").get(0);
+		var before = $(this).get(0);
 		// 得到不活跃棋子的src
 		var s = active_src.substring(0,active_src.length-5);
 		// 拼接字符串
@@ -1049,9 +1051,15 @@ $('.chess_board').on('click',"img[chessman_position='active']",function(){
 			  location.reload();
 			});
 		}
-		console.log(other_client_id);
-		console.log(before,after);
-		ws.send('{"client_id":"'+other_client_id+'","message":"hello"}');
+		var data = '{"client_id":"'+other_client_id+'","before_position":"'
+		+$(before).attr('position')+'","before_src":"'
+		+$(before).attr('src')+'","before_name":"'
+		+$(before).attr('name')+'","before_camp":"'
+		+$(before).attr('camp')+'","camp":"'
+		+global_camp+'","after_position":"'
+		+$(after).attr('position')+'"}';
+		ws.send(data);
+		global_camp = 'null';
 		// 预测下一步是否将军
 		rule(this,$(this).attr('chessman').substring(0,1),0);
 		

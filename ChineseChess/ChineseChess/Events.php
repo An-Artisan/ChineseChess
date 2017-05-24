@@ -68,11 +68,14 @@ class Events
         // 客户端传递的是json数据
         $message_data = json_decode($message, true);
         // 向对方发送数据
-        var_dump($message_data);
          Gateway::sendToClient($message_data['client_id'],  json_encode(array(
                         'type'=>'move',
-                        'message' =>$message_data['message']
-                       
+                        'before_position' =>$message_data['before_position'],
+                        'before_src' =>addslashes($message_data['before_src']),
+                        'before_name' =>$message_data['before_name'],
+                        'before_camp' =>$message_data['before_camp'],
+                        'after_position' =>$message_data['after_position'],
+                        'camp' =>$message_data['camp'],
                     )));
         // 向所有人发送 
         // Gateway::sendToAll("$client_id said $message\r\n");
