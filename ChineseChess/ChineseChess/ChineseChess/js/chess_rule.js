@@ -1,4 +1,4 @@
-var global_src = null;
+var global_src = 1;
 var global_target = {};
 var global_camp = 'red';
 // 聊天消息置于最底部
@@ -134,23 +134,31 @@ function set_chessman_active(camp){
 		var attr_name = $(".chess_board img[position='"+name+"']").attr('name');
 		// 获取当前位置的chessman
 		var attr_chessman = $(".chess_board img[position='"+name+"']").attr('chessman');
+		var move = $(".chess_board img[position='"+name+"']").attr('move');
 		// 如果attr_name为null表示为空棋位
 		if(attr_name == 'null'){
 			// 设置可走的位置为活跃棋位
 			$(".chess_board img[position='"+name+"']").attr('src','./images_chess/XQSTUDIO/OOS.GIF');
 			// 设置棋位的chessman_position值为active
 			$(".chess_board img[position='"+name+"']").attr('chessman_position','active');
+
 		}
 		// 如果可走棋位不为我方棋子就添加为活跃棋位
 		else if(attr_chessman.substring(0,1)!=camp){
-			// 获取活跃棋位的src
-			var s = $(".chess_board img[position='"+name+"']").attr('src');
-			// 拼接字符串
-			s = s.substring(0,s.length-4) + 'S.GIF'
-			// 设置棋位为可走棋位
-			$(".chess_board img[position='"+name+"']").attr('src',s);
-			// 设置chessman_position为active，用于点击判断
-			$(".chess_board img[position='"+name+"']").attr('chessman_position','active');
+			// 如果move存在的话，就不添加S了，只设置chessman_position为active
+			if(typeof(move) == 'undefined'){
+				// 获取活跃棋位的src
+				var s = $(".chess_board img[position='"+name+"']").attr('src');
+				// 拼接字符串
+				s = s.substring(0,s.length-4) + 'S.GIF'
+				// 设置棋位为可走棋位
+				$(".chess_board img[position='"+name+"']").attr('src',s);
+				// 设置chessman_position为active，用于点击判断
+				$(".chess_board img[position='"+name+"']").attr('chessman_position','active');
+			}
+			else{
+				$(".chess_board img[position='"+name+"']").attr('chessman_position','active');
+			}
 		}
 	});	
 
@@ -158,16 +166,17 @@ function set_chessman_active(camp){
 }
 // 查看棋子的下一步是否将军
 function checkmate(){
-
+	console.log(global_camp);
 	// 如果下一步该黑色方走，就判断能否将军黑色方将，否则判断红色方帅
-	var boss = (global_camp == 'black') ? 'r_boss' : 'b_boss';
+	var boss = (global_camp == 'b_boss') ? 'b_boss' : 'r_boss';
 	// 循环下一步可走步骤
-	console.log(1,boss);
+	console.log(boss);
 	$.each(global_target,function(name,value) {
 		// 如果下一步可走步骤有对方的 将或者帅，就提示将军
 		if($(".chess_board img[position='"+name+"']").attr('chessman') == boss){
 			// 提示将军
 			layer.msg('将军');
+			ws.send('{"type":"checkmate","client_id":"'+other_client_id+'"}');
 			// 跳出循环
 			return false;
 		}
@@ -996,21 +1005,33 @@ $('.chess_board #black img[name="chessman"]').each(function(){
 });
 // 活跃棋位的点击
 $('.chess_board').on('click',"img[chessman_position='active']",function(){
-		// 设置哪方可走
-		global_camp = (global_camp == 'red') ? 'black' : 'red';
-		(global_camp == 'red') ? $(this).attr('camp','black') : $(this).attr('camp','red');
+		// img 所有move属性 还原
+		$('.chess_board img[move="move"]').each(function(){
+            // 获取当前棋子的src
+            var src = $(this).attr('src');
+            // 把src最后的 .GIF去掉
+            var s = src.substring(0,src.length-5);
+            // 添加S.GIF 棋子处于活动状态
+            s = s + '.GIF';
+            // 改变棋子的状态
+            $(this).attr('src',s);
+            // 移除move属性
+            $(this).removeAttr('move');
+            // 移除chessman_position属性
+            $(this).removeAttr('chessman_position');
+         });
+		// 设置棋子阵营
+		(global_camp == 'red') ? $(this).attr('camp','red') : $(this).attr('camp','black');
 		// 获取chessman，判断是否游戏结束
 		var chessman = $(this).attr('chessman');
 		// 获取活跃棋子的src
 		var active_src = $(".chess_board img[status='active']").attr('src');
 		var after = $(".chess_board img[status='active']").get(0);
 		var before = $(this).get(0);
-		// 得到不活跃棋子的src
-		var s = active_src.substring(0,active_src.length-5);
-		// 拼接字符串
-		s = (s + '.GIF');
-		// 设置棋子的状态处于不活跃
-		$(this).attr('src',s);
+		// 设置活跃活跃棋子属性
+		$(this).attr('src',active_src);
+		// 添加一个move属性
+		$(this).attr('move','move');
 		// 设置name为chessman 代表是棋子
 		$(this).attr('name','chessman');
 		// 设置chessman属性值为 之前棋子的值
@@ -1018,9 +1039,11 @@ $('.chess_board').on('click',"img[chessman_position='active']",function(){
 		// 移除chessman_position属性
 		$(this).removeAttr('chessman_position');
 		// 设置之前的棋子的src为空棋子 
-		$(".chess_board img[status='active']").attr('src','./images_chess/XQSTUDIO/OO.GIF');
+		$(".chess_board img[status='active']").attr('src','./images_chess/XQSTUDIO/OOS.GIF');
 		// 设置之前的棋子的name为null
 		$(".chess_board img[status='active']").attr('name','null');
+		// 添加一个move属性
+		$(".chess_board img[status='active']").attr('move','move');
 		// 移除之前棋子的chessman值
 		$(".chess_board img[status='active']").removeAttr('chessman');
 		// 设置之前棋子的状态为inactive
@@ -1037,29 +1060,35 @@ $('.chess_board').on('click',"img[chessman_position='active']",function(){
 			$(this).attr('src',s);
 			// 移除chessman_position
 			$(this).removeAttr('chessman_position');
-			
 		});
 		// 把global_target 清空 
 		global_target = {};
 		// 获取对面的帅或者将的name
-		var boss = (global_camp == 'red') ? 'r_boss' : 'b_boss';
+		var boss = (global_camp == 'red') ? 'b_boss' : 'r_boss';
+		var opponents = (global_camp == 'red') ? 'black' : 'red';
+		// 打包json数据
+		var data = '{"type":"move","client_id":"'+other_client_id+'","before_position":"'
+		+$(before).attr('position')+'","before_src":"'
+		+$(before).attr('src')+'","before_name":"'
+		+$(before).attr('name')+'","before_camp":"'
+		+$(before).attr('camp')+'","before_chessman":"'
+		+$(before).attr('chessman')+'","camp":"'
+		+opponents+'","after_position":"'
+		+$(after).attr('position')+'"}';
+		// 发送给对面的棋盘同步
+		ws.send(data);
+		// 把阵营置为null
+		global_camp = boss;
 		// 判断游戏是否结束
 		if(chessman == boss){
-			layer.confirm('您输了！！！', {
-			  btn: ['知道了，o(╯□╰)o'] //按钮
+			ws.send('{"type":"fail","client_id":"'+other_client_id+'"}');
+			layer.confirm('您赢了！！！', {
+			  btn: ['知道了，(*^__^*)'] //按钮
 			}, function(){
 			  location.reload();
 			});
 		}
-		var data = '{"client_id":"'+other_client_id+'","before_position":"'
-		+$(before).attr('position')+'","before_src":"'
-		+$(before).attr('src')+'","before_name":"'
-		+$(before).attr('name')+'","before_camp":"'
-		+$(before).attr('camp')+'","camp":"'
-		+global_camp+'","after_position":"'
-		+$(after).attr('position')+'"}';
-		ws.send(data);
-		global_camp = 'null';
+
 		// 预测下一步是否将军
 		rule(this,$(this).attr('chessman').substring(0,1),0);
 		
@@ -1071,21 +1100,21 @@ $('.chess_board').on('click',"img[name='chessman']",function(){
 			// 结束函数
 			return false;
 		}
-		var src;
-		// 设置棋子状态为非活跃
-		if($(this).attr("status")=="active"){
-			// 获取当前棋子的src
-			src = $(this).attr('src');
+		// 获取活跃棋子的位置
+		var middle = $('.chess_board img[status="active"]').attr('position');
+		// 如果不是undefined的话，代表之前有点击
+		if (typeof(middle) != "undefined"){ 
+			console.log(middle,global_target);
+			// 获取之前点击的棋子的src
+			var src = $('.chess_board img[status="active"]').attr('src');
 			// 把src最后的 .GIF去掉
 			var s = src.substring(0,src.length-5);
 			// 设置棋子的状态处于不活跃
 			s = s + '.GIF';
 			// 改变棋子的状态
-			$(this).attr('src',s);
+			$('.chess_board img[status="active"]').attr('src',s);
 			// 设置棋子的状态为 inactive
-			$(this).attr('status','inactive');
-			// 设置全局src为null
-			global_src = null;
+			$('.chess_board img[status="active"]').attr('status','inactive');
 			// 把所有能走的棋盘恢复原状
 			$.each(global_target,function(name,value) {
 				// 设置为之前的值
@@ -1097,30 +1126,27 @@ $('.chess_board').on('click',"img[name='chessman']",function(){
 				}
 				// 移除chessman_position属性
 				$(".chess_board img[position='"+name+"']").removeAttr('chessman_position');
-
 			});
 			// 清空全局目标棋位
 			global_target = {};
-
-		}
-		// 设置棋子状态为活跃
-		else{
-				// 获取当前棋子的src
-				src = $(this).attr('src');
-				// 把src最后的 .GIF去掉
-				var s = src.substring(0,src.length-4);
-				// 添加S.GIF 棋子处于活动状态
-				s = s + 'S.GIF';
-				// 改变棋子的状态
-				$(this).attr('src',s);
-				// 设置棋子的状态为 active
-				$(this).attr('status','active');
-				// 把该棋子的src装进全局src
-				global_src = s;
-				// 获取是哪方阵营
-				var camp = $(this).attr('chessman').substring(0,1);
-				// 调用规则
-				rule(this,camp);
-		}
+			return false;
+		} 
+		// 获取当前棋子的src
+		src = $(this).attr('src');
+		// 把src最后的 .GIF去掉
+		var s = src.substring(0,src.length-4);
+		// 添加S.GIF 棋子处于活动状态
+		s = s + 'S.GIF';
+		// 改变棋子的状态
+		$(this).attr('src',s);
+		// 设置棋子的状态为 active
+		$(this).attr('status','active');
+		// 把该棋子的src装进全局src
+		global_src = 0;
+		// 获取是哪方阵营
+		var camp = $(this).attr('chessman').substring(0,1);
+		// 调用规则
+		rule(this,camp);
+		
 });
 

@@ -42,7 +42,7 @@ class BusinessWorker extends Worker
      *
      * @var string
      */
-    public $registerAddress = '127.0.0.1:1236';
+    public $registerAddress = '127.0.0.1:1237';
 
     /**
      * 事件处理类，默认是 Event 类

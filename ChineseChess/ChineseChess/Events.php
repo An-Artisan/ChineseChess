@@ -35,7 +35,8 @@ class Events
      * @param int $client_id 连接id
      */
     public static function onConnect($client_id)
-    {   Gateway::sendToCurrentClient(json_encode(array(
+    {   
+      Gateway::sendToCurrentClient(json_encode(array(
                         'type'=>'currentLogin',
                         'client_id'=>$client_id, 
                     )));
@@ -67,18 +68,33 @@ class Events
    {    
         // 客户端传递的是json数据
         $message_data = json_decode($message, true);
-        // 向对方发送数据
+        switch ($message_data['type']) {
+          case 'checkmate':
+            // 向对方发送数据
+            Gateway::sendToClient($message_data['client_id'],  json_encode(array(
+                        'type'=>'checkmate'
+                    )));
+            break;
+          case 'fail':
+             // 向对方发送数据
+            Gateway::sendToClient($message_data['client_id'],  json_encode(array(
+                        'type'=>'fail'
+                    )));
+            break;
+          
+          default:
+            // 向对方发送数据
          Gateway::sendToClient($message_data['client_id'],  json_encode(array(
                         'type'=>'move',
                         'before_position' =>$message_data['before_position'],
                         'before_src' =>addslashes($message_data['before_src']),
                         'before_name' =>$message_data['before_name'],
                         'before_camp' =>$message_data['before_camp'],
+                        'before_chessman' =>$message_data['before_chessman'],
                         'after_position' =>$message_data['after_position'],
                         'camp' =>$message_data['camp'],
                     )));
-        // 向所有人发送 
-        // Gateway::sendToAll("$client_id said $message\r\n");
+        }
    }
    
    /**
@@ -88,6 +104,8 @@ class Events
    public static function onClose($client_id)
    {
        // 向所有人发送 
-       // GateWay::sendToAll("$client_id logout\r\n");
+       GateWay::sendToAll(json_encode(array(
+                        'type'=>'loginOut'
+                    )));
    }
 }

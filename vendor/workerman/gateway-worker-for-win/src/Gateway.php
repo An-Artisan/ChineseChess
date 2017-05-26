@@ -67,7 +67,7 @@ class Gateway extends Worker
      *
      * @var string
      */
-    public $registerAddress = '127.0.0.1:1236';
+    public $registerAddress = '127.0.0.1:1237';
 
     /**
      * 是否可以平滑重启，gateway 不能平滑重启，否则会导致连接断开
