@@ -1,0 +1,56 @@
+body,html{
+    margin:0px;
+    height:100%;
+}
+body{
+    background: #2D93CA;
+}
+/*最顶部含汉字那行*/
+.col-md-12{
+    height:40px;
+    border-bottom:solid 1px #999;
+    background: #0acf66;
+    line-height: 40px;
+}
+#left .sty{
+    background: #fff;
+}
+#left .col-md-6 .col-md-4,#left .col-md-6 .col-md-5{
+     margin:0px 0px 5px 10px;
+     height:100px;
+     width:100px;
+     padding:0px;
+     -webkit-border-radius:5px;
+     -moz-border-radius:5px;
+     border-radius:5px;
+ }
+#left .col-md-5{
+    background: #0acf66;
+}
+#left .col-md-6 .col-md-4 img{
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+#left,#right{
+    height:700px;
+    background: white;
+    border:solid 1px #999;
+}
+#left{
+    border-right:solid 1px #999;
+}
+/************************垂直滚动条**********************/
+.verscroll{
+    margin-top:10px;
+    height:90%;
+    overflow: auto;
+    position: relative;
+    background: white;/*覆盖.col-md-12中的背景颜色*/
+}
+.list{
+    margin:10px 20px 0px -20px;
+    list-style-type: none;
+    font-weight: bold;
+    color: #0acf66;
+}

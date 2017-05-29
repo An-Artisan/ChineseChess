@@ -1,6 +1,6 @@
 var global_src = 1;
 var global_target = {};
-var global_camp = 'red';
+var global_camp = 'null';
 // 聊天消息置于最底部
 document.getElementById('main_content').scrollTop = document.getElementById('main_content').scrollHeight;
 function rule(e,camp,next=1){
@@ -1085,10 +1085,10 @@ $('.chess_board').on('click',"img[chessman_position='active']",function(){
 			layer.confirm('您赢了！！！', {
 			  btn: ['知道了，(*^__^*)'] //按钮
 			}, function(){
-			  location.reload();
+			  // 关闭当前窗口
+			  window.open('','_self'); window.close();
 			});
 		}
-
 		// 预测下一步是否将军
 		rule(this,$(this).attr('chessman').substring(0,1),0);
 		
@@ -1129,6 +1129,7 @@ $('.chess_board').on('click',"img[name='chessman']",function(){
 			});
 			// 清空全局目标棋位
 			global_target = {};
+			
 			return false;
 		} 
 		// 获取当前棋子的src

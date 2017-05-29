@@ -22,44 +22,64 @@
 		}
 		.games_info{
 			position: absolute;
-			margin-top:-20px;
+			margin-top:-50px;
 			margin-left:12px;
 		}
 		.chat_content{margin-top:70px;width:420px; height:525px;border:2px solid #555;float:right} 
 /* css注释：对divcss5-right设置float:right即可让对象靠右浮动 */ 
 	</style>
 	<script>
-layui.use('layedit', function(){
- // 获取编辑器
-  layedit = layui.layedit;
-  // 获取编辑器
-  layedit = layui.layedit;
-  //建立编辑器
-  index = layedit.build('demo', {
-  height:80,
-  tool: [
-      'strong' //加粗
-      ,'italic' //斜体
-      ,'underline' //下划线
-      ,'del' //删除线
-      ,'|' //分割线
-      ,'left' //左对齐
-      ,'center' //居中对齐
-      ,'right' //右对齐
-      ,'link' //超链接
-      ,'face' //表情
-    ]
-}); 
-}); 
-
+		layui.use('layedit', function(){
+		 // 获取编辑器
+		  layedit = layui.layedit;
+		  // 获取编辑器
+		  layedit = layui.layedit;
+		  //建立编辑器
+		  index = layedit.build('demo', {
+		  height:80,
+		  tool: [
+		      'strong' //加粗
+		      ,'italic' //斜体
+		      ,'underline' //下划线
+		      ,'del' //删除线
+		      ,'|' //分割线
+		      ,'left' //左对齐
+		      ,'center' //居中对齐
+		      ,'right' //右对齐
+		      ,'link' //超链接
+		      ,'face' //表情
+		    ]
+		}); 
+		}); 
 	</script>
 </head>
 <body>
-	
+	<?php 
+		// 开启session
+	    session_start();
+	    // 判断是否存在昵称
+	    if(!isset($_SESSION['username'])){
+	        echo "<script>layer.confirm('请登录后再试！', {
+	              btn: ['知道了，o(╯□╰)o'] //按钮
+	            }, function(){
+	              window.location.href='http://chess.joker1996.com/login.html';
+	            });</script>";
+	        exit;
+	    }
+	    $page = $_GET['page'];
+	    if(!(is_numeric($page) && $page > 0 && $page < 9)){
+	    	echo "<script>layer.confirm('参数不正确', {
+	              btn: ['知道了，o(╯□╰)o'] //按钮
+	            }, function(){
+	              window.location.href='http://chess.joker1996.com/home.php';
+	            });</script>";
+	        exit;
+	    }
+	?>
 	<div class="chess_board">
+		<img style="display: none;" id="user_head" src="<?php echo $_SESSION['user_head'];?>">
 		<div class="games_info">
-			<input type="button" value="准备">
-			<input type="button" value="悔棋">
+		<div style="font-size: 20px;" id="camp"></div>
 		</div>
 		<div id="black">
 		<div id="black_1">
