@@ -134,12 +134,14 @@ class Events
             }
             // 大于等于3，则不可以，房间已满
             else{
+                // 离开该分组
+                Gateway::leaveGroup($client_id, $message_data['group']);
+                // 设置session为空
+                Gateway::setSession($client_id, array());
                 // 提示房间已经满了
                 Gateway::sendToCurrentClient(json_encode(array(
                         'type'=>'full'
                     )));
-                // 并且踢掉该client_id
-                Gateway::closeClient($client_id);
             }
             break;
           // 游戏大厅登录
