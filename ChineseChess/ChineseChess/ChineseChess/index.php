@@ -26,35 +26,13 @@
 			margin-left:12px;
 		}
 		.chat_content{margin-top:70px;width:420px; height:525px;border:2px solid #555;float:right} 
-/* css注释：对divcss5-right设置float:right即可让对象靠右浮动 */ 
+		/* css注释：对divcss5-right设置float:right即可让对象靠右浮动 */ 
 	</style>
-	<script>
-		layui.use('layedit', function(){
-		 // 获取编辑器
-		  layedit = layui.layedit;
-		  // 获取编辑器
-		  layedit = layui.layedit;
-		  //建立编辑器
-		  index = layedit.build('demo', {
-		  height:80,
-		  tool: [
-		      'strong' //加粗
-		      ,'italic' //斜体
-		      ,'underline' //下划线
-		      ,'del' //删除线
-		      ,'|' //分割线
-		      ,'left' //左对齐
-		      ,'center' //居中对齐
-		      ,'right' //右对齐
-		      ,'link' //超链接
-		      ,'face' //表情
-		    ]
-		}); 
-		}); 
-	</script>
 </head>
 <body>
 	<?php 
+		// 关闭提示
+		error_reporting(E_ALL^E_NOTICE^E_WARNING);
 		// 开启session
 	    session_start();
 	    // 判断是否存在昵称
@@ -75,10 +53,13 @@
 	            });</script>";
 	        exit;
 	    }
+	    
 	?>
 	<div class="chess_board">
 		<img style="display: none;" id="user_head" src="<?php echo $_SESSION['user_head'];?>">
+		<div style="display: none;" id="username" ><?php echo $_SESSION['username'];?></div>
 		<div class="games_info">
+		<div>发送消息，按住ctrl+enter。某些浏览器不支持，请使用chrome浏览器</div>
 		<div style="font-size: 20px;" id="camp"></div>
 		</div>
 		<div id="black">
@@ -200,11 +181,14 @@
 		</div>
 	<div class="chat_content">
 	<div id="main_content" style="height: 400px;overflow-y:scroll;">
-	
+		<div><img style="border-radius:50%;width: 33px;" src="<?php  echo $_SESSION['user_head'];?>" alt=""><a style="color: blue;"><?php  echo $_SESSION['username'];?>&nbsp;进入了房间</a></div>
 	</div>
-     <textarea id="demo" style="display: none;"></textarea>
+     <textarea id="demo" style="display: none;">
+   
+     </textarea>
 	</div> 
 <script src="js/chess_rule.js"></script>
+<script src="js/chat.js"></script>
 
 </body>
 </html>

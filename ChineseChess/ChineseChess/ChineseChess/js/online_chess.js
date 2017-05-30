@@ -2,6 +2,10 @@
  var current_client_id;
  // 对面用户的websocket的连接id
  var other_client_id;
+ // 对面用户头像
+ var other_client_id_photo;
+ // 对面用户名
+ var other_client_id_username;
  // 连接服务端
 function connect() {
    // 创建websocket
@@ -34,7 +38,7 @@ function onopen(){
    } 
    }
    // 发送登录标志，以及分组信息，和头像信息
-   ws.send('{"type":"login","group":"'+Math.floor(theRequest.page)+'","photo":"'+$("#user_head").attr('src')+'"}');
+   ws.send('{"type":"login","username":"'+$("#username").text()+'","group":"'+Math.floor(theRequest.page)+'","photo":"'+$("#user_head").attr('src')+'"}');
 }
 function onmessage(e){
    // 转换为js对象
@@ -54,14 +58,26 @@ function onmessage(e){
             global_camp = data.client_id_one_camp;
             // 设置对方id
             other_client_id = data.client_id_two;
+            // 设置对方头像
+            other_client_id_photo = data.client_id_two_photo;
+            // 设置对方用户名
+            other_client_id_username = data.client_id_two_username;
             // 显示阵营
             $('#camp').text("当前阵营：红棋");
          }else{
             // 设置阵营
             other_client_id = data.client_id_one;
+            // 设置对方头像
+            other_client_id_photo = data.client_id_one_photo;
+            // 设置对方用户名
+            other_client_id_username = data.client_id_one_username;
             // 显示阵营
             $('#camp').text("当前阵营：黑棋");
          }
+         // 拼接内容
+         var content = '<br /><div><img style="border-radius:50%;width: 33px;" src="'+other_client_id_photo+'" ><a style="color: blue;">'+other_client_id_username+'&nbsp;进入了房间</a></div>';
+         // 添加到聊天区域
+         $("#main_content").append(content);
          // 提示开始游戏
          layer.confirm('开始游戏，红方先走', {
            btn: ['知道了，o(╯□╰)o'] //按钮
@@ -126,6 +142,14 @@ function onmessage(e){
               // 关闭当前窗口
               window.open('','_self'); window.close();
             });
+         break;
+      case 'say':
+         // 拼接内容
+         var content = '<br /><div><img style="border-radius:50%;width: 33px;" src="'+other_client_id_photo+'" alt=""><a>'+other_client_id_username+'&nbsp;'+data.content+'</a></div>';
+         // 添加到聊天区域
+         $("#main_content").append(content);
+         // 滚动条置于底部
+         document.getElementById('main_content').scrollTop = document.getElementById('main_content').scrollHeight;
          break;
       default:
          

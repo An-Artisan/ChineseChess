@@ -18,21 +18,7 @@
 			uid(用户id)，uname(用户昵称)，portrait(用户头像) 键
 		*/
 		$user_info = json_decode(file_get_contents($get_user_info_url),true);
-		$redis = new Redis();
-		$redis->pconnect('localhost',6379);
-		// 查看user_id 是否存在。
-		$baidu_id = $redis->exists('user:' . $user_info['uid']);
-		// 如果存在，更新昵称和头像
-		if($baidu_id){
-			$redis->set('user:' . $user_info['uid'] . 'nickname',$user_info['uname']);
-			$redis->set('user:' . $user_info['uid'] . 'user_head',"http://tb.himg.baidu.com/sys/portraitn/item/" . $user_info['portrait']);
-		}
-		// 如果不存在，设置user_id，并设置昵称和头像
-		else{
-			$redis->set('user:' . $user_info['uid'],$user_info['uid']);
-			$redis->set('user:' . $user_info['uid'] . 'nickname',$user_info['uname']);
-			$redis->set('user:' . $user_info['uid'] . 'user_head',"http://tb.himg.baidu.com/sys/portraitn/item/" . $user_info['portrait']);
-		}
+		// 开启session
 		session_start();
 		$_SESSION['username'] = $user_info['uname'];
 		$_SESSION['uid'] = $user_info['uid'];

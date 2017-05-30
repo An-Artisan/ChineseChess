@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>对局大厅</title>
+    <link href="favicon.ico" mce_href="favicon.ico" rel="bookmark" type="image/x-icon" /> 
+    <link href="favicon.ico" mce_href="favicon.ico" rel="icon" type="image/x-icon" /> 
+    <link href="favicon.ico" mce_href="favicon.ico" rel="shortcut icon" type="image/x-icon" /> 
     <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
     <script src="layer/layer.js"></script>
     <link rel="stylesheet" href="css/bootstrap.css">
@@ -14,6 +17,8 @@
     // 开启session
     session_start();
     // 判断是否存在昵称
+    var_dump(isset($_SESSION['username']));
+    var_dump(($_SESSION['username']));
     if(!isset($_SESSION['username'])){
         echo "<script>layer.confirm('请登录后再试！', {
               btn: ['知道了，o(╯□╰)o'] //按钮
@@ -22,6 +27,9 @@
             });</script>";
         exit;
     }
+    echo "<script>layer.confirm('登录成功！', {
+                  btn: ['知道了，(*^__^*)'] //按钮
+                });</script>";
  ?>
 <div class="container">
     <div class="row">

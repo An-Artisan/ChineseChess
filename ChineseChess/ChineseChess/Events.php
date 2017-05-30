@@ -98,7 +98,7 @@ class Events
            // 加入分组
            Gateway::joinGroup($client_id, $message_data['group']);
            // 添加session信息，头像和分组
-           Gateway::setSession($client_id, array('group'=>$message_data['group'],'photo'=>addslashes($message_data['photo'])));
+           Gateway::setSession($client_id, array('group'=>$message_data['group'],'username'=>$message_data['username'],'photo'=>addslashes($message_data['photo'])));
            // 循环分组获取所有分组信息
             for ($i=1; $i < 9; $i++) { 
                 // 装入一个变量中
@@ -113,13 +113,19 @@ class Events
               // 获取clien_id
               foreach ($user as $key => $value) {
                     $users[] = $key;
+                    $photo[] = $value['photo'];
+                    $username[] = $value['username'];
               }
               // 打包数组数据
               $new_message = array(
                             'type'=>'otherLogin',
                             'client_id_one'=>$users[0],
+                            'client_id_one_photo'=>$photo[0],
+                            'client_id_one_username'=>$username[0],
                             'client_id_one_camp'=>'red', 
                             'client_id_two'=>$users[1], 
+                            'client_id_two_photo'=>$photo[1], 
+                            'client_id_two_username'=>$username[1],
                             'client_id_two_camp'=>'black', 
                         );
               // 给当前分组发送消息
@@ -157,6 +163,13 @@ class Events
             }
             // 发送给游戏大厅
             Gateway::sendToGroup('home', json_encode($all_connect));
+            break;
+          case 'say':
+            // 发送聊天信息
+            Gateway::sendToClient($message_data['client_id'],  json_encode(array(
+                          'type'=>'say',
+                          'content' =>addslashes($message_data['content'])
+                      )));
             break;
           default:
            // 向对方发送数据 之前棋子的位置，src，棋子名称，阵营，等等信息

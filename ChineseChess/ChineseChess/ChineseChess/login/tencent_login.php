@@ -56,26 +56,11 @@
 		}
 		$getUserInfoUrl = "https://graph.qq.com/user/get_user_info?access_token=$access_token&oauth_consumer_key=$app_id&openid=" . $open_info->openid;
 		$user_info = json_decode(file_get_contents($getUserInfoUrl),true);
-		// 实例化Redis数据库
-		$redis = new Redis();
-		$redis->pconnect('localhost',6379);
-		// 查看user_id 是否存在。
-		$tencent_id = $redis->exists('user:' . $open_info->client_id);
-		// 如果存在，更新昵称和头像
-		if($tencent_id){
-			$redis->set('user:' .$open_info->client_id . 'nickname',$user_info['nickname']);
-			$redis->set('user:' .$open_info->client_id. 'user_head',$user_info['figureurl_qq_2']);
-		}
-		// 如果不存在，设置user_id，并设置昵称和头像
-		else{
-			$redis->set('user:' . $open_info->client_id,$open_info->client_id);
-			$redis->set('user:' . $open_info->client_id . 'nickname',$user_info['nickname']);
-			$redis->set('user:' . $open_info->client_id . 'user_head',$user_info['figureurl_qq_2']);
-		}
+		// 开启session
 		session_start();
 		$_SESSION['username'] = $user_info['nickname'];
 		$_SESSION['uid'] = $open_info->client_id;
-		$_SESSION['user_head'] = $user_info['figureurl_qq_2'];
+		$_SESSION['user_head'] = $user_info['figureurl_1'];
         // 跳转到主页面
 		header("Location: http://chess.joker1996.com/home.php"); 
 		//确保重定向后，后续代码不会被执行 

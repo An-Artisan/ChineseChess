@@ -589,9 +589,9 @@ function common_horse(e,camp,next=1){
 		}
 	}
 	//	马左上一，左下一的规则
-	if(i < 100 && $(".chess_board img[position='"+(i-1)+"']").attr('name') == 'null'){
+	if(i < 110 && $(".chess_board img[position='"+(i-1)+"']").attr('name') == 'null'){
 		// 左上一
-		if(j > 2 && ($(".chess_board img[position='"+(i+8)+"']").attr('name') == 'null' || $(".chess_board img[position='"+(i+8)+"']").attr('chessman').substring(0,1) != camp)){
+		if(j > 2 &&  i < 100 && ($(".chess_board img[position='"+(i+8)+"']").attr('name') == 'null' || $(".chess_board img[position='"+(i+8)+"']").attr('chessman').substring(0,1) != camp)){
 			global_target[i+8] = $(".chess_board img[position='"+(i+8)+"']").attr('src');
 		}
 		// 左下一
@@ -600,9 +600,9 @@ function common_horse(e,camp,next=1){
 		}
 	}
 	// 马右上一，右下一的规则
-	if(i < 100 &&  $(".chess_board img[position='"+(i+1)+"']").attr('name') == 'null'){
+	if(i < 110 &&  $(".chess_board img[position='"+(i+1)+"']").attr('name') == 'null'){
 		// 右上一
-		if(j < 8 && ($(".chess_board img[position='"+(i+12)+"']").attr('name') == 'null' || $(".chess_board img[position='"+(i+12)+"']").attr('chessman').substring(0,1) != camp)){
+		if(j < 8 && i < 100 && ($(".chess_board img[position='"+(i+12)+"']").attr('name') == 'null' || $(".chess_board img[position='"+(i+12)+"']").attr('chessman').substring(0,1) != camp)){
 			global_target[i+12] = $(".chess_board img[position='"+(i+12)+"']").attr('src');
 		}
 		// 右下一
